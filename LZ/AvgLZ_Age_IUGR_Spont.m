@@ -9,8 +9,10 @@ if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already op
 %     fprintf('Parpool already open ..?\n')
 % end
 
-% Analysis of spontaneous (resting state) complexity (average of trial entropies)
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+% Analysis of spontaneous (resting state) complexity
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516;
@@ -42,30 +44,32 @@ for i = 1:numSubjects
             data_filt = filtfilt(b, a, initial_cluster')';
 
             % Array to store entropy of each channel
-            channelOmegas = nan(numChannels, 1);
+            channelLZs = nan(numChannels, 1);
 
-            % Loop through channels, trials and compute CTW
+            % Loop through channels, trials and compute LZ
             parfor ch = 1:numChannels
                 % Array to store entropy of each trial within a channel
-                trialOmegas = nan(numTrials, 1);
+                trialLZs = nan(numTrials, 1);
                 for t = 1:numTrials
                     s_idx = startIndices(t);
                     segment = data_filt(ch, s_idx : s_idx + trialSamples - 1);
-                    trialOmegas(t) = LZ76(segment >= median(segment));
+                    LZ = LZ76(segment >= median(segment));
+                    trialLZs(t) = LZ * log2(length(segment)) / length(segment);
                 end
-                channelOmegas(ch) = mean(trialOmegas, 'omitnan');
+                % Average LZ over trials
+                channelLZs(ch) = mean(trialLZs, 'omitnan');
             end
-
-            avgOmega = mean(channelOmegas, 'omitnan');
-
+            % Average LZ over channels
+            avgLZ = mean(channelLZs, 'omitnan');
+            
             
             % Store Results
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
             compiledData{end, 2} = ssw;
-            compiledData{end, 3} = avgOmega;
+            compiledData{end, 3} = avgLZ;
             
-            fprintf('Processed %s: SSW = %d, Mean Omega = %.4f\n', ...
-                subjName, ssw, avgOmega);        
+            fprintf('Processed %s: SSW = %d, Mean LZ = %.4f\n', ...
+                subjName, ssw, avgLZ);        
         end
     catch ME
         fprintf('Failed subject %s: %s\n', subjName, ME.message);
@@ -74,7 +78,7 @@ end
 
 % Convert to Table at the very end
 if ~isempty(compiledData)
-    results = cell2table(compiledData, 'VariableNames', {'SubjectID', 'SSW', 'Omega'});
+    results = cell2table(compiledData, 'VariableNames', {'SubjectID', 'SSW', 'LZ'});
     results = rmmissing(results);
     fprintf('\nAnalysis complete. Found %d valid subjects.\n', height(results));
 else
