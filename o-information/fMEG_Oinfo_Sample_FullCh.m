@@ -1,0 +1,135 @@
+% O-Information analysis: Sampling, Correlation with Age, and Histogram
+clearvars; close all;
+rng(329014901); 
+
+baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\SAMPLE_DATA_24_ICA";
+subjectFolders = dir(fullfile(baseDir, '*_FAIRY'));
+
+numSubjects = length(subjectFolders);
+numSamples = 1000;
+numChansToPick = 10;
+
+omegaMatrix = nan(numSubjects, numSamples);
+conceptAge  = nan(numSubjects, 1);
+% Pre-allocate for the "Real" Initial Cluster O-info
+omegaInitialCluster = nan(numSubjects, 1);
+validSubs   = false(numSubjects, 1); % Track subjects who have both data and age
+
+for i = 1:numSubjects
+    try
+        subName = subjectFolders(i).name;
+        fprintf('Processing %d/%d: %s\n', i, numSubjects, subName);
+        
+        % --- 1. Load Conceptional Age (ssw.mat) ---
+        agePath = fullfile(baseDir, subName, '0_info', 'ssw.mat');
+        if exist(agePath, 'file')
+            tempAge = load(agePath);
+            % Assuming the variable inside ssw.mat is named 'ssw'
+            conceptAge(i) = str2double(tempAge.ssw); 
+        else
+            warning('Age file missing for %s', subName);
+            continue; 
+        end
+        
+        % --- 2. Load MEG Data & Sample ---
+        dsPath = fullfile(baseDir, subName, '3_fMEG', 'fMEG_data.ds');
+        hdr = ft_read_header(dsPath);
+        [b, a] = butter(4, [1 15] / (hdr.Fs/2), 'bandpass');
+
+        for s = 1:numSamples
+            randIdx = randperm(hdr.nChans, numChansToPick);
+            cfg = [];
+            cfg.dataset = dsPath;
+            cfg.channel = hdr.label(randIdx);
+            cfg.feedback = 'no';
+            dataStruct = ft_preprocessing(cfg);
+            
+            % Filtering
+            data_filt = filtfilt(b, a, dataStruct.trial{1}')';
+            
+            % O-Info Calculation
+            [~, SIGMA] = data2gaussian(data_filt');
+            omegaMatrix(i, s) = soinfo_from_covmat(SIGMA, size(data_filt, 2));
+        end
+        
+        validSubs(i) = true;
+
+        % --- New: Load and Calculate Initial Cluster O-Info ---
+        clusterPath = fullfile(baseDir, subName, '3_fMEG', 'initial_cluster.mat');
+        if exist(clusterPath, 'file')
+            % Assuming initial_cluster.mat contains a variable named 'data_cluster' 
+            % with size [10 x Time]
+            tempClust = load(clusterPath);
+            
+            % Locate the variable (dynamic check if name is unknown)
+            clusterData = tempClust.initial_cluster; 
+            
+            % Filter the cluster data (1-15 Hz)
+            data_filt_clust = filtfilt(b, a, clusterData')';
+            
+            % O-Info Calculation
+            [~, SIGMA_clust] = data2gaussian(data_filt_clust');
+            omegaInitialCluster(i) = soinfo_from_covmat(SIGMA_clust, size(data_filt_clust, 2));
+        end
+    catch ME
+        fprintf('Error with %s: %s\n', subjectFolders(i).name, ME.message);
+    end
+end
+
+% --- Calculate Correlations ---
+cleanAge = conceptAge(validSubs);
+cleanOmegaRand = omegaMatrix(validSubs, :);
+cleanOmegaClust = omegaInitialCluster(validSubs);
+
+% 1. Correlations for the 5 random samples
+rhoRandom = nan(1, numSamples);
+for s = 1:numSamples
+    rhoRandom(s) = corr(cleanAge, cleanOmegaRand(:, s), 'Type', 'Pearson');
+end
+
+% 2. Correlation for the Initial Cluster
+rhoInitial = corr(cleanAge, cleanOmegaClust, 'Type', 'Pearson');
+
+% Calculate Empirical P-value 
+% (How often did random sampling beat the initial cluster?)
+p_val = sum(abs(rhoRandom) >= abs(rhoInitial)) / numSamples;
+
+% --- Visualization ---
+figure('Color', 'w', 'Position', [100, 100, 800, 500]);
+hold on;
+
+% Plot the distribution of random samples
+histogram(rhoRandom, 'BinWidth', 0.02, 'FaceColor', [0.7 0.7 0.7], 'EdgeColor', 'k');
+
+% Plot the "Real" cluster correlation as a distinct vertical line
+lineHandle = xline(rhoInitial, '-r', 'LineWidth', 3);
+lineHandle.FontSize = 12;
+lineHandle.LabelVerticalAlignment = 'middle';
+
+xlabel('Correlation Coefficient (r)');
+ylabel('Frequency');
+%title('Benchmarking Initial Cluster vs. Random Samples');
+
+% --- Save the Figure ---
+figName = 'O_Info_Benchmark_Plot';
+
+% Save as MATLAB .fig for future editing
+saveas(gcf, [figName '.fig']);
+
+% Save as High-Res PNG (300 DPI) for reports/papers
+exportgraphics(gcf, [figName '.png'], 'Resolution', 300);
+
+%grid on;
+%legend('Random 10-ch Samples', 'Initial Cluster');
+fprintf('\nResults:\n');
+fprintf('Initial Cluster Correlation: r = %.3f\n', rhoInitial);
+fprintf('Mean Random Correlation:     r = %.3f\n', mean(rhoRandom));
+fprintf('P-value:                     r = %.3f\n', p_val)
+
+% Save Summary
+summaryTable = table(rhoInitial, mean(rhoRandom), p_val, ...
+    'VariableNames', {'Initial_Cluster_R', 'Mean_Random_R', 'Empirical_P'});
+writetable(summaryTable, 'O_Info_Summary_Report.csv');
+disp(summaryTable);
+
+fprintf('\nSuccess! Results saved to:\n1. O_Info_Summary_Report.csv\n2. %s.png\n3. %s.fig\n', figName, figName);

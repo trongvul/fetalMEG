@@ -1,0 +1,26 @@
+% O-Information analysis of fMEG
+clearvars
+close all
+rng(329014901)
+
+try
+    parpool
+catch
+    fprintf('Seems like parallel pool is already open\n')
+end
+
+% %Load data
+load("\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\Consciousness_24_ICA\C001-500A-Q-40SSW_Consciousness_20160728_02_FAIRY\3_fMEG\initial_cluster.mat")
+
+fs = 250; % Sampling rate (Hz)
+[numSamples, numChannels] = size(data_plot);
+t = (0:numSamples-1) / fs; % Create time vector in seconds
+
+% % Extract the variable from the loaded .mat file
+% data = initial_cluster;
+% 
+% % Basic plot of all 10 channels
+% plot(data(1,:));
+% title('10-Channel EEG Data');
+% xlabel('Samples');
+% ylabel('Amplitude (µV)');
