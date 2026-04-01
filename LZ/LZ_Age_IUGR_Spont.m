@@ -1,4 +1,4 @@
-% O-Information analysis of fMEG with respect to conceptional age
+% LZ analysis of fMEG with respect to conceptional age
 clearvars
 close all
 rng(329014901)
@@ -11,6 +11,9 @@ allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 numChannels = 10;
 fs = 610.3516;
+
+[b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
+
 
 % Use a cell array to accumulate results
 compiledData = {}; 
@@ -33,11 +36,6 @@ for i = 1:numSubjects
                 dataStruct = load(clusterPath);
                 data = dataStruct.initial_cluster;
 
-                fs = 610.3516;
-                % Filter Design (1-15 Hz)
-                % We use a 4th order Butterworth filter
-                [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
-
                 % Apply Filter to each channel
                 % 'filtfilt' requires data to be along the first dimension, 
                 % so we transpose to [Samples x Channels], filter, then transpose back.
@@ -55,9 +53,9 @@ for i = 1:numSubjects
                 % Normalize LZ
                 LZ  = avg_LZ * log2(length(data_filtered)) / length(data_filtered);
                 
-                % Load conceptional age (SSW)
-                sswStruct = load(sswPath);
-                currentSSW = sswStruct.ssw;
+%                 % Load conceptional age (SSW)
+%                 sswStruct = load(sswPath);
+%                 currentSSW = sswStruct.ssw;
 
                 % Store in cell array: {SubjectName, SSW, Omega}
                 compiledData{end+1, 1} = subjName; %#ok<AGROW>

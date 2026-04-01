@@ -1,7 +1,7 @@
 clearvars
 close all
 
-load('AvgOmega_SSW_IUGR_AUD_Dev_15.mat');
+load('AvgOmega_SSW_IUGR_AUD_STD_15.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);

@@ -1,4 +1,4 @@
-load('LZ_SSW_IUGR_SPONT.mat');
+load('LZ_SSW_IUGR_LIGHT_15.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
@@ -28,7 +28,8 @@ if height(results) > 1
     
     % Calculate Correlation for the title
     [r, pval] = corr(xData, yData);
-    title_str = sprintf('Development of fetal brain information dynamics\n(r = %.2f, p = %.3f)', r, pval);
+    title_str = sprintf('r = %.2f, p = %.3f', r, pval);
+    %title_str = sprintf('Development of fetal brain information dynamics\n(r = %.2f, p = %.3f)', r, pval);
 else
     title_str = 'Fetal Brain Information Dynamics';
 end

@@ -1,2 +1,2 @@
-addpath("C:\Users\idm\Desktop\fetal_oinfo\fieldtrip-20260305")
+addpath("/home/trongvule/Desktop/fetalMEG/fieldtrip-20260305")
 ft_defaults;

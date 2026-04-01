@@ -86,5 +86,5 @@ else
 end
 
 % Save the result
-save('AvgLZa_SSW_IUGR_SPONT.mat', 'results');
+save('AvgLZ_SSW_IUGR_SPONT.mat', 'results');
 fprintf('Analysis saved to AvgLZa_SSW_IUGR_SPONT.mat\n');
