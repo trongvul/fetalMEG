@@ -4,8 +4,8 @@ close all
 if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of LZ of auditory stimulus response 
-%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
-baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+%baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
@@ -32,8 +32,9 @@ for i = 1:numSubjects
             numChannels = size(initial_cluster, 1);
             totalSamples = size(initial_cluster, 2);
             
-            isL1 = strcmp({alltriggers.type}, 'DEV');
-            l1_samples = [alltriggers(isL1).sample];
+            isStim = strcmp({alltriggers.type}, 'DEV');
+            stimSamples = [alltriggers(isStim).sample];
+            numTrials = length(stimSamples);
                         
             % Filter the data
             data_filt = filtfilt(b, a, initial_cluster')';
@@ -43,9 +44,9 @@ for i = 1:numSubjects
             
             parfor ch = 1:numChannels
             % Init matrix to store LZ in each trial (epoch)
-            trialLZs = nan(totalSamples, 1);
-                for t = 1:length(l1_samples)
-                    s_idx = l1_samples(t);
+            trialLZs = nan(numTrials, 1);
+                for t = 1:numTrials
+                    s_idx = stimSamples(t);
                     if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
                         segment = data_filt(ch, s_idx - preSamples : s_idx + postSamples);
                         LZ = LZ76(segment >= median(segment));

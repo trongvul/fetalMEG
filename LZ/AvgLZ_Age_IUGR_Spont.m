@@ -3,13 +3,7 @@ close all;
 rng(1234);
 
 if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
-% try
-%     parpool(8)
-% catch
-%     fprintf('Parpool already open ..?\n')
-% end
 
-% Analysis of spontaneous (resting state) complexity
 %baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
 baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
