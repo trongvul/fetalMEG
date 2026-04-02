@@ -29,10 +29,7 @@ for i = 1:numSubjects
             
             isL1 = strcmp({alltriggers.type}, 'L1');
             l1_samples = [alltriggers(isL1).sample];
-            
-            % Segment 
-            %epochLen = preSamples + postSamples + 1;
-            %trialMatrix = nan(10, epochLen, length(l1_samples));
+           
             % Init matrix to store omega in each trial (epoch)
             trialOmegas = nan(length(l1_samples), 1);
             
