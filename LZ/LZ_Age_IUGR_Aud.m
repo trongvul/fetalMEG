@@ -20,7 +20,7 @@ fprintf('Starting analysis...\n');
 for i = 1:numSubjects
     subjName = allSubjectsDir(i).name;
     try
-        if allSubjectsDir(i).isdir && contains(subjName, "SSW", 'IgnoreCase', true) && contains(subjName, "LIGHT", 'IgnoreCase', true) 
+        if allSubjectsDir(i).isdir && contains(subjName, "SSW", 'IgnoreCase', true) && contains(subjName, "AUD", 'IgnoreCase', true) 
 
             % Load Data and Triggers
             load(fullfile(baseDir, subjName, '3_fMEG', 'initial_cluster.mat')); 
@@ -65,5 +65,5 @@ else
 end
 
 % Save the result
-save('LZ_SSW_IUGR_LIGHT_15.mat', 'results');
-fprintf('Analysis saved to LZ_SSW_IUGR_LIGHT_15.mat\n');
+save('LZ_SSW_IUGR_AUD_15.mat', 'results');
+fprintf('Analysis saved to LZ_SSW_IUGR_AUD_15.mat\n');

@@ -48,6 +48,8 @@ for i = 1:numSubjects
                     s_idx = l1_samples(t);
                     if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
                         segment = data_filt(ch, s_idx - preSamples : s_idx + postSamples);
+                        baseline_val = mean(segment(:, 1:preSamples), 2);
+                        segment = segment - baseline_val;
                         LZ = LZ76(segment >= median(segment));
                         trialLZs(t) = LZ * log2(length(segment)) / length(segment);
                     end
@@ -81,5 +83,5 @@ else
 end
 
 % Save the result
-save('AvgLZ_SSW_IUGR_LIGHT_15.mat', 'results');
-fprintf('Analysis saved to AvgLZ_SSW_IUGR_LIGHT_15.mat\n');
+save('AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat', 'results');
+fprintf('Analysis saved to AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat\n');

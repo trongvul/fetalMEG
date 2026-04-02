@@ -1,4 +1,4 @@
-load('Fetal_CTW_SSW_IUGR_SPONT.mat');
+load('CTW_SSW_IUGR_Light_15.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);

@@ -6,7 +6,9 @@ rng(1234);
 if isempty(gcp('nocreate')), parpool; end
 
 % Analysis of Averaged Stimulus Response with Quality Control Plot
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
