@@ -5,8 +5,8 @@ rng(1234);
 if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of spontaneous (resting state) complexity
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
-%baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
@@ -83,5 +83,5 @@ else
 end
 
 % Save the result
-save('PermEn_SSW_IUGR_SPONT.mat', 'results');
+save('PermEn_SSW_IUGR_Spont.mat', 'results');
 fprintf('Analysis saved to PermEn_SSW_IUGR_SPONT.mat\n');

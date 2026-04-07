@@ -4,8 +4,8 @@ close all
 if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of LZ of visual auditory stimulus response 
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
-%baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
@@ -85,5 +85,5 @@ else
 end
 
 % Save the result
-save('AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat', 'results');
-fprintf('Analysis saved to AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat\n');
+save('PermEn_SSW_IUGR_LIGHT_15.mat', 'results');
+fprintf('Analysis saved to PermEn_SSW_IUGR_LIGHT_15.mat\n');
