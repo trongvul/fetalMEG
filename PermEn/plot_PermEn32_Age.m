@@ -1,4 +1,4 @@
-load('PermEn_SSW_IUGR_LIGHT_15.mat');
+load('PermEn_SSW_IUGR_Std.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
