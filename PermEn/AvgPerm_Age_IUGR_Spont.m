@@ -17,6 +17,9 @@ tau = round((t/1000)/(1/fs)); % convert from ms to sample
 
 trialDuration = 1.5; % seconds
 trialSamples  = round(trialDuration * fs); 
+preSamples  = round(0.1 * fs); 
+postSamples = round(1.4 * fs); 
+
 
 [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
 
@@ -42,23 +45,26 @@ for i = 1:numSubjects
             data_filt = filtfilt(b, a, initial_cluster')';
 
             % Array to store entropy of each channel
-            channelPerms = nan(numChannels, 1);
+            %channelPerms = nan(numChannels, 1);
 
             % Array to store entropy of each trial within a channel
             trialPerms = nan(numTrials, 1);
 
-            for ch = 1:numChannels
-                parfor t = 1:numTrials
-                    s_idx = startIndices(t);
-                    segment = data_filt(ch, s_idx : s_idx + trialSamples - 1);
-                    trialPerms(t) = PermEn(segment, m, tau);
-                end
-                % Average PermEn across trials
-                channelPerms(ch) = mean(trialPerms, 'omitnan');
+            %for ch = 1:numChannels
+            parfor t = 1:numTrials
+                s_idx = startIndices(t);
+                segment = data_filt(:, s_idx : s_idx + trialSamples - 1);
+                baseline_val = mean(segment(:, 1:preSamples), 2);
+                segment = segment - baseline_val;
+                trialPerms(t) = PermEn(segment, m, tau);
             end
+            % Average PermEn across trials
+            %channelPerms(ch) = mean(trialPerms, 'omitnan');
+            %end
             
             % Average PermEn over channels
-            permEn = mean(channelPerms, 'omitnan');
+            permEn = mean(trialPerms, 'omitnan');
+            %permEn = mean(channelPerms, 'omitnan');
             
             % Store Results
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
@@ -83,5 +89,5 @@ else
 end
 
 % Save the result
-save('PermEn_SSW_IUGR_Spont.mat', 'results');
-fprintf('Analysis saved to PermEn_SSW_IUGR_SPONT.mat\n');
+save('PermEn_SSW_IUGR_Spont1.mat', 'results');
+fprintf('Analysis saved to PermEn_SSW_IUGR_SPONT1.mat\n');
