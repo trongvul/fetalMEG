@@ -42,7 +42,7 @@ parfor ich = 1:size(dat,1)
     % Get file size
     file_info = dir(filenames{ich});
     png(ich) = (file_info.bytes - refval) * normfact;
-    fprintf('.')
+    %fprintf('.')
 end
 
 % Clean up files after parfor loop
@@ -53,6 +53,6 @@ for i = 1:length(filenames)
     end
 end
 recycle('on'); % Turn recycle back on
-fprintf('\n')
+%fprintf('\n')
 close all
 end

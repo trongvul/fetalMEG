@@ -4,8 +4,8 @@ close all
 if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of LZ of visual auditory stimulus response 
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
-%baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
@@ -36,7 +36,7 @@ for i = 1:numSubjects
             numChannels = size(initial_cluster, 1);
             totalSamples = size(initial_cluster, 2);
             
-            isStim = strcmp({alltriggers.type}, 'DEV');
+            isStim = strcmp({alltriggers.type}, 'STD');
             stimSamples = [alltriggers(isStim).sample];
             numTrials = length(stimSamples);
                         
@@ -48,20 +48,23 @@ for i = 1:numSubjects
             % Array to store entropy of each trial within a channel
             trialPerms = nan(numTrials, 1);
             
-            for ch = 1:numChannels
+            %for ch = 1:numChannels
                 parfor t = 1:numTrials
                     s_idx = stimSamples(t);
                     if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
-                        segment = data_filt(ch, s_idx - preSamples : s_idx + postSamples);
+                        segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
+                        baseline_val = mean(segment(:, 1:preSamples), 2);
+                        segment = segment - baseline_val;
                         trialPerms(t) = PermEn(segment, m, tau);
                     end
                 end
-                % Average PermEn over trials
-                channelPerms(ch) = mean(trialPerms, 'omitnan');
-            end
+            % Average PermEn over trials
+            %channelPerms(ch) = mean(trialPerms, 'omitnan');
+            %end
             
             % Average PermEn over channels
-            permEn = mean(channelPerms, 'omitnan');
+            permEn = mean(trialPerms, 'omitnan');
+            %permEn = mean(channelPerms, 'omitnan');
 
              % Store in cell array: {SubjectName, SSW, Omega}
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
@@ -85,5 +88,5 @@ else
 end
 
 % Save the result
-save('AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat', 'results');
-fprintf('Analysis saved to AvgLZ_SSW_IUGR_LIGHT_15_baseline.mat\n');
+save('PermEn_SSW_IUGR_Std.mat', 'results');
+fprintf('Analysis saved to PermEn_SSW_IUGR_Std.mat\n');

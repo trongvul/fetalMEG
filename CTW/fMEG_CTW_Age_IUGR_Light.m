@@ -15,7 +15,7 @@ preSamples  = round(0.1 * fs);
 postSamples = round(1.4 * fs); 
 timeVector  = (-preSamples:postSamples) / fs; % Time axis in seconds
 
-vmo = 100; % Context depth 
+vmo = 20; % Context depth 
 numSymbols = 2; % Binary complexity
 
 % Design filter
@@ -53,7 +53,9 @@ for i = 1:numSubjects
             parfor t = 1:numTrials
                 s_idx = l1_samples(t);
                 if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
-                    segment = initial_cluster(:, s_idx - preSamples : s_idx + postSamples);
+                    segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
+                    baseline_val = mean(segment(:, 1:preSamples), 2);
+                    segment = segment - baseline_val;
                     trialEntropies(t) = CTWEntropyRate(segment, numSymbols, vmo);
                 end
             end
@@ -84,5 +86,5 @@ else
 end
 
 % Save the result
-save('CTW_SSW_IUGR_Light_15.mat', 'results');
-fprintf('Analysis saved to CTW_SSW_IUGR_Light_15.mat\n');
+save('CTW_SSW_IUGR_Light1.mat', 'results');
+fprintf('Analysis saved to CTW_SSW_IUGR_Light1.mat\n');
