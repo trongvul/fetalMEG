@@ -1,4 +1,4 @@
-load('PNG_SSW_IUGR_SPONT.mat');
+load('PNG_SSW_IUGR_LIGHT.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
