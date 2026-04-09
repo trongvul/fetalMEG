@@ -1,3 +1,5 @@
+load('PCA_results.mat');
+
 % Settings
 % Colors: AUDIO (Blue), LIGHT (Yellow), SPONT (Purple)
 colors = [0, 0.4470, 0.7410; 0.9290, 0.6940, 0.1250; 0.4940, 0.1840, 0.5560];
@@ -37,7 +39,7 @@ for i = 1:3
     colororder(colors);
     title(titles{i});
     ylabel('Variance explained (%)');
-    grid on;
+    %grid on;
     set(gca, 'FontSize', 11);
 end
 
