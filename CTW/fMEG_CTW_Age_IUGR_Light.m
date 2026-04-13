@@ -86,5 +86,5 @@ else
 end
 
 % Save the result
-save('CTW_SSW_IUGR_Light1.mat', 'results');
-fprintf('Analysis saved to CTW_SSW_IUGR_Light1.mat\n');
+save('CTW_SSW_IUGR_Light.mat', 'results');
+fprintf('Analysis saved to CTW_SSW_IUGR_Light.mat\n');

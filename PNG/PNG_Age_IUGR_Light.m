@@ -49,8 +49,8 @@ for i = 1:numSubjects
             for t = 1:numTrials
                 s_idx = stimSamples(t);
                 if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
-                    segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
-                    baseline_val = mean(segment(:, 1:preSamples), 2);
+                    segment = data_filt(1, s_idx - preSamples : s_idx + postSamples);
+                    baseline_val = mean(segment(1, 1:preSamples), 2);
                     segment = segment - baseline_val;
                     % Compute PNG for a segment in each channel
                     PNG = PNGentropy(segment, sampint, nsymb, 'name');
@@ -67,7 +67,7 @@ for i = 1:numSubjects
             compiledData{end, 2} = ssw;
             compiledData{end, 3} = avgPNG;
 
-            fprintf('Processed %s: SSW = %d, PNG = %.2f\n', subjName, ssw, avgPNG);        
+            fprintf('Processed %s: SSW = %s, PNG = %.2f\n', subjName, ssw, avgPNG);        
         end
     catch ME
         fprintf('Failed subject %s: %s\n', subjName, ME.message);
@@ -84,5 +84,5 @@ else
 end
 
 % Save the result
-save('PNG_SSW_IUGR_LIGHT.mat', 'results');
-fprintf('Analysis saved to PNG_SSW_IUGR_LIGHT.mat\n');
+save('PNG_SSW_IUGR_LIGHT_Ch1.mat', 'results');
+fprintf('Analysis saved to PNG_SSW_IUGR_LIGHT_Ch1.mat\n');

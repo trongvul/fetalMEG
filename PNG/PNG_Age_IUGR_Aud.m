@@ -37,7 +37,7 @@ for i = 1:numSubjects
             numChannels = size(initial_cluster, 1);
             totalSamples = size(initial_cluster, 2);
             
-            isStim = strcmp({alltriggers.type}, 'STD');
+            isStim = strcmp({alltriggers.type}, 'DEV');
             stimSamples = [alltriggers(isStim).sample];
             numTrials = length(stimSamples);
                         
