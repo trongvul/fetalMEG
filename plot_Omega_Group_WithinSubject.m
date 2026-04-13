@@ -1,11 +1,9 @@
-results = readtable('spreadsheet/AvgOmega_SSW_IUGR_SPONT.csv');
-stimType = 'SPONT';
-sex = {1, 2};
-sexNames = {'Male', 'Female'};
+results = readtable('spreadsheet/AvgOmega_Merged_All.csv');
+groups = {'Control', 'IUGR', 'SGA'};
 
 % Define custom colors (RGB values between 0 and 1)
-colorMale = [0.2, 0.4, 0.8];   % A nice Blue
-colorFemale = [0.9, 0.3, 0.5]; % A nice Pink/Red
+%colorMale = [0.2, 0.4, 0.8];  
+%colorFemale = [0.9, 0.3, 0.5]; 
 
 % Master conversion of SSW to numeric
 if iscell(results.SSW) || isstring(results.SSW)
@@ -18,12 +16,12 @@ allIDs = string(results.ID); % Ensure you have an 'id' column
 
 figure('Color', 'w', 'Position', [100, 100, 1200, 500]);
 
-for i = 1:2
-    subplot(1, 2, i);
+for i = 1:3
+    subplot(1, 3, i);
     hold on;
     
     % Filter data for current sex
-    isData = results.Sex == sex{i};
+    isData = strcmp(results.Group, groups{i});
     xData = allX(isData);
     yData = allY(isData);
     idData = allIDs(isData);
@@ -31,11 +29,11 @@ for i = 1:2
     if isempty(xData) || all(isnan(xData)), continue; end
 
     % Select the color based on the loop index
-    if i == 1
-        currentCol = colorMale;
-    else
-        currentCol = colorFemale;
-    end
+    % if i == 1
+    %     currentCol = colorMale;
+    % else
+    %     currentCol = colorFemale;
+    % end
     
     % Plot Within-Subject Lines
     uniqueIDs = unique(idData);
@@ -51,25 +49,24 @@ for i = 1:2
             y_sorted = y_vals(sortIdx);
             
             plot(x_sorted, y_sorted, '-', 'Color', [0.5 0.5 0.5 0.3], 'LineWidth', 1);
-            legend('Longitude');
         end
     end
    
     % Scatter plot (Overlayed on top of lines)
-    scatter(xData, yData, 40, 'filled', 'MarkerFaceColor', currentCol, 'MarkerFaceAlpha', 0.6);
-    
+    %scatter(xData, yData, 40, 'filled', 'MarkerFaceColor', currentCol, 'MarkerFaceAlpha', 0.6);
+    scatter(xData, yData, 40, 'filled', 'MarkerFaceAlpha', 0.6);
     % Trend Line
     [p, S] = polyfit(xData, yData, 1);
     x_range = linspace(min(xData), max(xData), 100);
     y_fit = polyval(p, x_range);
     plot(x_range, y_fit, 'r--', 'LineWidth', 1.5);
-    legend('Av')
+    
     % Stats
     [r, pval] = corr(xData, yData, 'Type', 'Spearman', 'Rows', 'complete');
   
     xlabel('Gestational age (weeks)');
     ylabel('O-Information');
-    title(sexNames{i}, 'FontSize', 14);    
+    title(groups{i}, 'FontSize', 14);    
     
     if pval < 0.001
         subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
@@ -79,4 +76,3 @@ for i = 1:2
     
     set(gca, 'FontSize', 11);
 end
-sgtitle(stimType, 'FontWeight', 'bold');

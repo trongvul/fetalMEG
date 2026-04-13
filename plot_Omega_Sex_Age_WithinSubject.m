@@ -4,8 +4,8 @@ sex = {1, 2};
 sexNames = {'Male', 'Female'};
 
 % Define custom colors (RGB values between 0 and 1)
-colorMale = [0.2, 0.4, 0.8];   % A nice Blue
-colorFemale = [0.9, 0.3, 0.5]; % A nice Pink/Red
+colorMale = [0.2, 0.4, 0.8];  
+colorFemale = [0.9, 0.3, 0.5]; 
 
 % Master conversion of SSW to numeric
 if iscell(results.SSW) || isstring(results.SSW)
