@@ -65,7 +65,7 @@ for i = 1:numSubjects
             
             % Pass 3D Tensor to CTWEntropyRate
             if validTrialCount > 0
-                ctwVal = CTWEntropyRate(trialMatrix, numSymbols, vmo);
+                ctwVal = CTWEntropyRate(trialMatrix);
                 
                 % Store results
                 compiledData{end+1, 1} = subjName; %#ok<AGROW>
@@ -84,6 +84,6 @@ end
 if ~isempty(compiledData)
     results = cell2table(compiledData, 'VariableNames', {'SubjectID', 'SSW', 'CTW'});
     results = rmmissing(results);
-    save('CTW_SSW_IUGR_Light_new.mat', 'results');
+    save('CTW_SSW_IUGR_Light1.mat', 'results');
     fprintf('Analysis saved. Total valid subjects: %d\n', height(results));
 end
