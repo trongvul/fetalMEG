@@ -4,13 +4,13 @@ close all
 %if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of LZ of visual auditory stimulus response 
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
-%baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
-postSamples = round(1.5 * fs); 
+postSamples = round(0.6 * fs); 
 epochLen = postSamples + 1;
 
 [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
@@ -52,16 +52,24 @@ for i = 1:numSubjects
              
             % Average LZ over trials
             evoked_response = mean(trialMatrix, 3, 'omitnan'); 
-       
-            LZ = LZ76(evoked_response >= median(evoked_response));
-            LZ = LZ * log2(length(evoked_response)) / length(evoked_response);
+            
+            channelLZs = nan(numChannels, 1);
 
-             % Store in cell array: {SubjectName, SSW, Omega}
+            for ch = 1:numChannels
+                signal = evoked_response(ch,:);
+                LZ = LZ76(signal >= median(signal));
+                % Normalized LZ
+                channelLZs(ch) = LZ * log2(length(signal)) / length(signal);
+            end
+            
+            avgLZ = mean(channelLZs,"omitnan");
+
+            % Store in cell array: {SubjectName, SSW, Omega}
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
             compiledData{end, 2} = ssw;
-            compiledData{end, 3} = LZ;
+            compiledData{end, 3} = avgLZ;
 
-            fprintf('Processed %s: SSW = %s, LZ = %.2f\n', subjName, ssw, LZ);        
+            fprintf('Processed %s: SSW = %s, LZ = %.2f\n', subjName, ssw, avgLZ);        
         end
     catch ME
         fprintf('Failed subject %s: %s\n', subjName, ME.message);
@@ -78,5 +86,5 @@ else
 end
 
 % Save the result
-save('LZ_SSW_IUGR_LIGHT_AvgTrials.mat', 'results');
-fprintf('Analysis saved to LZ_SSW_IUGR_LIGHT_AvgTrials.mat\n');
+save('LZ_SSW_IUGR_LIGHT_AvgTrials_06.mat', 'results');
+fprintf('Analysis saved to LZ_SSW_IUGR_LIGHT_AvgTrials_06.mat\n');
