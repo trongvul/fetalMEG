@@ -1,0 +1,92 @@
+clearvars
+close all
+
+%if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
+
+% Analysis of Perm of auditory stimulus response 
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+
+allSubjectsDir = dir(baseDir);
+numSubjects = length(allSubjectsDir);
+fs = 610.3516; 
+m = 3;
+t = 64; %s
+tau = round((t/1000)/(1/fs)); % convert from ms to sample
+
+postSamples = round(1.5 * fs); 
+epochLen = postSamples + 1;
+
+[b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
+
+% Use a cell array to accumulate results
+compiledData = {}; 
+
+fprintf('Starting analysis...\n');
+
+for i = 1:numSubjects
+    subjName = allSubjectsDir(i).name;
+    try
+        if allSubjectsDir(i).isdir && contains(subjName, "SSW", 'IgnoreCase', true) && contains(subjName, "AUDIO", 'IgnoreCase', true) 
+
+            % Load Data and Triggers
+            load(fullfile(baseDir, subjName, '3_fMEG', 'initial_cluster.mat')); 
+            load(fullfile(baseDir, subjName, '0_info', 'alltriggers.mat')); 
+            load(fullfile(baseDir, subjName, '0_info', 'ssw.mat')); 
+
+            numChannels = size(initial_cluster, 1);
+            totalSamples = size(initial_cluster, 2);
+            
+            isStim = strcmp({alltriggers.type}, 'DEV');
+            stimSamples = [alltriggers(isStim).sample];
+            numTrials = length(stimSamples);
+                        
+            % Filter the data
+            data_filt = filtfilt(b, a, initial_cluster')';
+
+            trialMatrix = nan(10, epochLen, numTrials);
+            
+            for t = 1:numTrials
+                s_idx = stimSamples(t);
+                if (s_idx + postSamples) <= size(initial_cluster, 2)
+                    segment = data_filt(:, s_idx : s_idx + postSamples);
+                    trialMatrix(:,:,t) = segment;
+                end
+            end
+             
+            % Average PermEn over trials
+            evoked_response = mean(trialMatrix, 3, 'omitnan'); 
+            
+            channelPerms = nan(numChannels, 1);
+
+            for ch = 1:numChannels
+                channelPerms(ch) = PermEn(evoked_response(ch,:), m, tau);
+            end
+            
+            % Average Perm over channels
+            permVal = mean(channelPerms,"omitnan");
+
+            % Store in cell array: {SubjectName, SSW, Omega}
+            compiledData{end+1, 1} = subjName; %#ok<AGROW>
+            compiledData{end, 2} = ssw;
+            compiledData{end, 3} = permVal;
+
+            fprintf('Processed %s: SSW = %s, Perm = %.2f\n', subjName, ssw, permVal);        
+        end
+    catch ME
+        fprintf('Failed subject %s: %s\n', subjName, ME.message);
+    end
+end
+
+% Convert to Table at the very end
+if ~isempty(compiledData)
+    results = cell2table(compiledData, 'VariableNames', {'SubjectID', 'SSW', 'Perm'});
+    results = rmmissing(results);
+    fprintf('\nAnalysis complete. Found %d valid subjects.\n', height(results));
+else
+    fprintf('\nNo subjects matched the criteria.\n');
+end
+
+% Save the result
+save('Perm_SSW_IUGR_AUD_DEV_AvgTrials_15.mat', 'results');
+fprintf('Analysis saved to Perm_SSW_IUGR_AUD_DEV_AvgTrials_15.mat\n');

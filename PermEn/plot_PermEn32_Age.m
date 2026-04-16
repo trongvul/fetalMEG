@@ -1,11 +1,11 @@
-load('PermEn_SSW_IUGR_Std.mat');
+load('Perm_SSW_IUGR_AUD_DEV_AvgTrials_15.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
 else
     xData = results.SSW;
 end
-yData = results.PermEn;
+yData = results.Perm;
 % Create the figure
 figure('Color', 'w', 'Position', [100, 100, 800, 600]);
 hold on;
