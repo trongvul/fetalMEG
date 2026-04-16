@@ -1,12 +1,12 @@
 clearvars
 close all
 
-finalData = readtable('spreadsheet\Fetal_Model_IUGR_CTW_Spont.csv');
+finalData = readtable('spreadsheet/LZ_Model_Light_07.csv');
 
 finalData.Group = categorical(finalData.Group);
 finalData.Group = reordercats(finalData.Group, {'Control', 'SGA', 'IUGR'});
 
-lme = fitlme(finalData, 'CTW ~ 1 + GA_days*Group + GA_days*Sex + (1|ID)');
+lme = fitlme(finalData, 'LZ ~ 1 + GA_days*Group + GA_days*Sex + (1|ID)');
 disp(lme);
 
 

@@ -3,10 +3,13 @@ close all
 
 % List all the files you want to merge
 filePaths = {
-    'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat', ...
-    'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_DEV_15.mat', ...
-    'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_STD_15.mat', ...
-    'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT.mat'
+    '/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_LIGHT_15.mat', ...
+    %'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_DEV_15.mat', ...
+    %'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_STD_15.mat', ...
+    %'C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT.mat',
+    "/home/trongvule/Desktop/fetalMEG/CTW/CTW_SSW_IUGR_LIGHT_AvgTrials_15.mat";
+    "/home/trongvule/Desktop/fetalMEG/LZ/LZ_SSW_IUGR_LIGHT_AvgTrials.mat";
+
 };
 
 allResults = table(); % Initialize an empty table to hold everything
@@ -52,7 +55,7 @@ finalData.Sex = categorical(finalData.Sex);
 
 % Clean and Save
 finalData = rmmissing(finalData);
-writetable(finalData, 'spreadsheet/AvgOmega_Merged_All.csv');
+writetable(finalData, 'spreadsheet/FetalModel_Light.csv');
 
 disp('Merge Complete. Combined data contains:');
 fprintf('%d total observations.\n', height(finalData));

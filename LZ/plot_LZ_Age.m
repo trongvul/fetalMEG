@@ -1,4 +1,4 @@
-load('LZ_SSW_IUGR_SPONT_AvgTrials_07.mat');
+load('LZ_SSW_IUGR_LIGHT_AvgTrials.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
