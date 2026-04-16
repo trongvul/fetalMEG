@@ -34,11 +34,11 @@ else
     title_str = 'Fetal Brain Information Dynamics';
 end
 
-% 5. Labeling
+% Labeling
 xlabel('Gestational age (weeks)');
 ylabel('LZ');
 title(title_str);
 %legend('Location', 'northeast');
 
-% 6. Clean up axes
+% Clean up axes
 set(gca, 'FontSize', 12, 'TickDir', 'out');
