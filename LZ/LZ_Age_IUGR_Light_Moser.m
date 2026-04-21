@@ -10,7 +10,7 @@ baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_IC
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
-postSamples = round(0.7 * fs); 
+postSamples = round(1.5 * fs); 
 epochLen = postSamples + 1;
 
 [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
@@ -81,5 +81,5 @@ else
 end
 
 % Save the result
-save('LZ_SSW_IUGR_LIGHT_Moser_07.mat', 'results');
-fprintf('Analysis saved to LZ_SSW_IUGR_LIGHT_Moser_07.mat\n');
+save('LZ_SSW_IUGR_LIGHT_Moser.mat', 'results');
+fprintf('Analysis saved to LZ_SSW_IUGR_LIGHT_Moser.mat\n');

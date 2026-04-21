@@ -40,7 +40,7 @@ for i = 1:numSubjects
             % Filter the data
             data_filt = filtfilt(b, a, initial_cluster')';
 
-            trialMatrix = nan(10, epochLen, numTrials);
+            trialMatrix = nan(numChannels, epochLen, numTrials);
             
             for t = 1:numTrials
                 s_idx = l1_samples(t);

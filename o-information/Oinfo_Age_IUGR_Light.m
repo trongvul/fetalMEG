@@ -42,6 +42,7 @@ for i = 1:numSubjects
                     segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
                     [~, SIGMA] = data2gaussian(segment');
                     omegaVal = soinfo_from_covmat(SIGMA, size(segment, 2));
+                    trialOmegas(t) = omegaVal;
                 end
             end
             
