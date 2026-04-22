@@ -1,10 +1,10 @@
 clearvars
 close all
 
-finalData = readtable('spreadsheet\AvgOmega_SSW_IUGR_AUD_DEV.csv');
+%finalData = readtable('spreadsheet\AvgOmega_SSW_IUGR_AUD_DEV.csv');
 %finalData = readtable('spreadsheet\AvgOmega_SSW_IUGR_AUD_STD.csv');
 %finalData = readtable('spreadsheet\AvgOmega_SSW_IUGR_LIGHT.csv');
-%finalData = readtable('spreadsheet\AvgOmega_SSW_IUGR_Spont.csv');
+finalData = readtable('spreadsheet\AvgOmega_Model_SPONT_notrials.csv');
 
 finalData.Group = categorical(finalData.Group);
 finalData.Group = reordercats(finalData.Group, {'Control', 'SGA', 'IUGR'});

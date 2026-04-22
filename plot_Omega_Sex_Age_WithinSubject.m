@@ -1,5 +1,5 @@
-results = readtable('spreadsheet/AvgOmega_SSW_IUGR_AUD_STD.csv');
-stimType = 'AUD-STD';
+results = readtable('spreadsheet/AvgOmega_Model_LIGHT.csv');
+stimType = 'LIGHT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
 
