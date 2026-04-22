@@ -1,7 +1,7 @@
 clearvars
 close all
 
-load('AvgOmega_SSW_IUGR_LIGHT_15.mat');
+load('AvgOmega_SSW_IUGR_AUD_STD_15.mat');
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
@@ -49,4 +49,4 @@ ylabel('O-information');
 
 % Clean up axes
 set(gca, 'FontSize', 12, 'TickDir', 'out');
-title('LIGHT', 'FontWeight', 'bold');
+title('AUD-STD', 'FontWeight', 'bold');

@@ -1,5 +1,5 @@
-results = readtable('spreadsheet/LZ_Model_AUD_STD_15.csv');
-stimType = 'AUD-DEV';
+results = readtable('spreadsheet/LZ_Model_AUD_DEV_Moser.csv');
+stimType = 'LIGHT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
 
