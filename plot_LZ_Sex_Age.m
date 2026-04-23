@@ -1,11 +1,11 @@
-results = readtable('spreadsheet/LZ_Model_AUD_DEV_Moser.csv');
+results = readtable('spreadsheet/LZ_Model_AUD_STD_Moser.csv');
 sex = {1, 2};
 
-% Master conversion of SSW to numeric (do this ONCE)
-if iscell(results.SSW) || isstring(results.SSW)
-    allX = str2double(results.SSW);
+% Master conversion of SSW to numeric 
+if iscell(results.GA_days) || isstring(results.GA_days)
+    allX = str2double(results.GA_days) ./ 7;
 else
-    allX = results.SSW;
+    allX = results.GA_days ./ 7;
 end
 allY = results.LZ; % Master Y data
 
@@ -50,8 +50,10 @@ for i = 1:2
         title("Male", 'FontSize', 14);    
         subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     else
-        title("Female", 'FontSize', 14);    
-        subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
+        title("Female", 'FontSize', 14);   
+        subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
+
+        %subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     end
     %subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
 

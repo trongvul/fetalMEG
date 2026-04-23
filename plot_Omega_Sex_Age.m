@@ -1,11 +1,11 @@
-results = readtable('spreadsheet/AvgOmega_SSW_IUGR_SPONT.csv');
+results = readtable('spreadsheet/AvgOmega_Model_AUD_DEV.csv');
 sex = {1, 2};
 
-% Master conversion of SSW to numeric (do this ONCE)
-if iscell(results.SSW) || isstring(results.SSW)
-    allX = str2double(results.SSW);
+% Master conversion of SSW to numeric 
+if iscell(results.GA_days) || isstring(results.GA_days)
+    allX = str2double(results.GA_days);
 else
-    allX = results.SSW;
+    allX = results.GA_days;
 end
 allY = results.Omega; % Master Y data
 
@@ -47,11 +47,13 @@ for i = 1:2
     ylabel('Omega');
    
     if i == 1
-        title("Male", 'FontSize', 14);    
+        title("Male", 'FontSize', 14);
         subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     else
-        title("Female", 'FontSize', 14);    
-        subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
+        title("Female", 'FontSize', 14);
+        subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
+
+        %subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     end
     %subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
 

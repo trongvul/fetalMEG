@@ -22,9 +22,9 @@ for i = 1:numSubjects
     try
         if allSubjectsDir(i).isdir  && contains(subjName, "SSW", 'IgnoreCase', true) && contains(subjName, "SPONT", 'IgnoreCase', true) 
             % Load gestational age
-            fullfile(baseDir, subName, '0_info', 'ssw.mat');
+            load(fullfile(baseDir, subjName, '0_info', 'ssw.mat'));
             
-            dsPath = fullfile(baseDir, subName, '3_fMEG', 'fMEG_data.ds');
+            dsPath = fullfile(baseDir, subjName, '3_fMEG', 'fMEG_data.ds');
             hdr = ft_read_header(dsPath);
 
             cfg = [];
