@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_full.csv');
+results = readtable('spreadsheet/AvgOmega_full_avgtrials.csv');
 groups = {'Control', 'IUGR', 'SGA'};
 
 % Define custom colors (RGB values between 0 and 1)

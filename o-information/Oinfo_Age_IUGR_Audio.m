@@ -5,12 +5,10 @@ close all
 %baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
 baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
-
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
-preSamples  = round(0.1 * fs); 
-postSamples = round(1.4 * fs); 
+postSamples = round(1.5 * fs); 
 
 [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
 % Use a cell array to accumulate results
@@ -30,7 +28,7 @@ for i = 1:numSubjects
             load(fullfile(baseDir, subjName, '0_info', 'ssw.mat')); 
 
             
-            isL1 = strcmp({alltriggers.type}, 'DEV');
+            isL1 = strcmp({alltriggers.type}, 'STD');
             l1_samples = [alltriggers(isL1).sample];
 
             trialOmegas = nan(length(l1_samples), 1);
@@ -40,8 +38,8 @@ for i = 1:numSubjects
             
             for t = 1:length(l1_samples)
                 s_idx = l1_samples(t);
-                if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
-                    segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
+                if (s_idx + postSamples) <= size(initial_cluster, 2)
+                    segment = data_filt(:, s_idx : s_idx + postSamples);
                     [~, SIGMA] = data2gaussian(segment');
                     [oinfo, sinfo] = soinfo_from_covmat(SIGMA, size(segment, 2));
                     trialOmegas(t) = oinfo / sinfo;
@@ -73,5 +71,5 @@ else
 end
 
 % Save the result
-save('AvgOmega_SSW_IUGR_AUD_DEV_norm.mat', 'results');
-fprintf('Analysis saved to AvgOmega_SSW_IUGR_AUD_DEV_norm.mat\n');
+save('AvgOmega_SSW_IUGR_AUD_STD_norm.mat', 'results');
+fprintf('Analysis saved to AvgOmega_SSW_IUGR_AUD_STD_norm.mat\n');

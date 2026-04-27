@@ -12,8 +12,8 @@ close all
 %load("/home/trongvule/Desktop/fetalMEG/CTW/CTW_SSW_IUGR_AUD_DEV_Moser.mat");
 %load("/home/trongvule/Desktop/fetalMEG/LZ/LZ_SSW_IUGR_LIGHT_Moser.mat")
 
-%load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_LIGHT_norm.mat");
-load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
+load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_LIGHT_norm_avgtrials.mat");
+%load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
 
 
 
@@ -56,7 +56,7 @@ finalData.Sex = categorical(finalData.Sex);
 % Remove row with NaN
 finalData = rmmissing(finalData);
 
-writetable(finalData, 'spreadsheet/AvgOmega_Model_SPONT_norm.csv');
+writetable(finalData, 'spreadsheet/AvgOmega_Model_LIGHT_norm_avgtrials.csv');
 
 disp('Merge Complete. First 5 rows:');
 disp(head(finalData, 5));

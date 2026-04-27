@@ -1,16 +1,16 @@
 clearvars
 close all
 
-filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_LIGHT.csv');
-results = readtable(filePath);
+%filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_AUD_DEV_norm_avgtrials.csv');
+%results = readtable(filePath);
 
-%load('AvgOmega_SSW_IUGR_LIGHT_15.mat')
+%load('AvgOmega_SSW_IUGR_AUD_DEV_norm_avgtrials.mat')
 stimType = 'LIGHT';
 
-if iscell(results.GA_days) || isstring(results.GA_days)
-    xData = str2double(results.GA_days);
+if iscell(results.SSW) || isstring(results.SSW)
+    xData = str2double(results.SSW);
 else
-    xData = results.GA_days;
+    xData = results.SSW;
 end
 yData = results.Omega;
 % Create the figure
