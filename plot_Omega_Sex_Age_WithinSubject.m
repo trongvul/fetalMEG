@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_Model_LIGHT.csv');
+results = readtable('spreadsheet/AvgOmega_Model_LIGHT_norm.csv');
 stimType = 'LIGHT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
@@ -8,10 +8,10 @@ colorMale = [0.2, 0.4, 0.8];
 colorFemale = [0.9, 0.3, 0.5]; 
 
 % Master conversion of SSW to numeric
-if iscell(results.SSW) || isstring(results.SSW)
-    allX = str2double(results.SSW);
+if iscell(results.GA_days) || isstring(results.GA_days)
+    allX = str2double(results.GA_days);
 else
-    allX = results.SSW;
+    allX = results.GA_days;
 end
 allY = results.Omega; 
 allIDs = string(results.ID); % Ensure you have an 'id' column

@@ -1,11 +1,11 @@
-results = readtable('spreadsheet/AvgOmega_Model_AUD_DEV.csv');
+results = readtable('spreadsheet/AvgOmega_Model_AUD_DEV_norm.csv');
 sex = {1, 2};
 
 % Master conversion of SSW to numeric 
-if iscell(results.GA_days) || isstring(results.GA_days)
-    allX = str2double(results.GA_days);
+if iscell(results.SSW) || isstring(results.SSW)
+    allX = str2double(results.SSW);
 else
-    allX = results.GA_days;
+    allX = results.SSW;
 end
 allY = results.Omega; % Master Y data
 

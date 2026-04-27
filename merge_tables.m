@@ -5,12 +5,16 @@ close all
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat");
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_DEV_15.mat");
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_STD_15.mat");
-load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials.mat");
+%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials.mat");
 
 %load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_LIGHT_AvgTrials_15.mat");
 
 %load("/home/trongvule/Desktop/fetalMEG/CTW/CTW_SSW_IUGR_AUD_DEV_Moser.mat");
 %load("/home/trongvule/Desktop/fetalMEG/LZ/LZ_SSW_IUGR_LIGHT_Moser.mat")
+
+%load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_LIGHT_norm.mat");
+load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
+
 
 
 tempTable = results;
@@ -52,7 +56,7 @@ finalData.Sex = categorical(finalData.Sex);
 % Remove row with NaN
 finalData = rmmissing(finalData);
 
-writetable(finalData, 'spreadsheet/AvgOmega_Model_SPONT_notrials.csv');
+writetable(finalData, 'spreadsheet/AvgOmega_Model_SPONT_norm.csv');
 
 disp('Merge Complete. First 5 rows:');
 disp(head(finalData, 5));

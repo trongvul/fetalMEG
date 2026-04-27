@@ -1,12 +1,16 @@
 clearvars
 close all
 
-load('AvgOmega_SSW_IUGR_SPONT_notrials.mat');
+filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_LIGHT.csv');
+results = readtable(filePath);
 
-if iscell(results.SSW) || isstring(results.SSW)
-    xData = str2double(results.SSW);
+%load('AvgOmega_SSW_IUGR_LIGHT_15.mat')
+stimType = 'LIGHT';
+
+if iscell(results.GA_days) || isstring(results.GA_days)
+    xData = str2double(results.GA_days);
 else
-    xData = results.SSW;
+    xData = results.GA_days;
 end
 yData = results.Omega;
 % Create the figure
@@ -49,4 +53,4 @@ ylabel('O-information');
 
 % Clean up axes
 set(gca, 'FontSize', 12, 'TickDir', 'out');
-title('SPONT', 'FontWeight', 'bold');
+title(stimType, 'FontWeight', 'bold');

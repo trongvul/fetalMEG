@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/LZ_Model_AUD_STD_Moser.csv');
+results = readtable('spreadsheet/LZ_Model_LIGHT_Moser.csv');
 sex = {1, 2};
 
 % Master conversion of SSW to numeric 

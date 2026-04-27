@@ -29,7 +29,8 @@ for i = 1:numSubjects
             data_filt = filtfilt(b, a, initial_cluster')';
            
             [~, SIGMA] = data2gaussian(data_filt');
-            omegaVal = soinfo_from_covmat(SIGMA, size(data_filt, 2));
+            [oinfo, sinfo] = soinfo_from_covmat(SIGMA, size(data_filt, 2));
+            omegaVal = oinfo / sinfo;
           
             % Store Results
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
@@ -54,5 +55,5 @@ else
 end
 
 % Save the result
-save('AvgOmega_SSW_IUGR_SPONT_notrials.mat', 'results');
-fprintf('Analysis saved to AvgOmega_SSW_IUGR_SPONT_notrials.mat\n');
+save('AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat', 'results');
+fprintf('Analysis saved to AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat\n');

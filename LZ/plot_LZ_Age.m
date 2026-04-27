@@ -1,4 +1,7 @@
-load('LZ_SSW_IUGR_AUD_DEV_Moser.mat');
+%load('LZ_SSW_IUGR_AUD_DEV_Moser.mat');
+
+filePath = fullfile('..', 'spreadsheet', 'LZ_Model_LIGHT_15.csv');
+results = readtable(filePath);
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);

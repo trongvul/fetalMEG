@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/CTW_Model_AUD_DEV_Moser.csv');
+results = readtable('spreadsheet/CTW_Model_AUD_DEV_15.csv');
 stimType = 'LIGHT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};

@@ -2,7 +2,9 @@ clearvars
 close all
 
 % Analysis of o-information of visual auditory stimulus response 
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
+baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
+
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516; 
@@ -41,8 +43,8 @@ for i = 1:numSubjects
                 if (s_idx - preSamples) > 0 && (s_idx + postSamples) <= size(initial_cluster, 2)
                     segment = data_filt(:, s_idx - preSamples : s_idx + postSamples);
                     [~, SIGMA] = data2gaussian(segment');
-                    omegaVal = soinfo_from_covmat(SIGMA, size(segment, 2));
-                    trialOmegas(t) = omegaVal;
+                    [oinfo, sinfo] = soinfo_from_covmat(SIGMA, size(segment, 2));
+                    trialOmegas(t) = oinfo / sinfo;
                 end
             end
             
@@ -53,7 +55,7 @@ for i = 1:numSubjects
             compiledData{end, 2} = ssw;
             compiledData{end, 3} = avgOmega;
 
-            fprintf('Processed %s: SSW = %d, Omega = %.2f\n', subjName, ssw, avgOmega);        
+            fprintf('Processed %s: SSW = %s, Omega = %.2f\n', subjName, ssw, avgOmega);        
 
         end
     catch ME
@@ -71,5 +73,5 @@ else
 end
 
 % Save the result
-save('Varley_AvgOmega_SSW_IUGR_LIGHT_15.mat', 'results');
-fprintf('Analysis saved to Varley_AvgOmega_SSW_IUGR_LIGHT_15.mat\n');
+save('AvgOmega_SSW_IUGR_LIGHT_norm.mat', 'results');
+fprintf('Analysis saved to AvgOmega_SSW_IUGR_LIGHT_norm.mat\n');
