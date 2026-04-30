@@ -1,12 +1,12 @@
 %load('LZ_SSW_IUGR_AUD_DEV_Moser.mat');
 
-filePath = fullfile('..', 'spreadsheet', 'LZ_Model_LIGHT_15.csv');
+filePath = fullfile('..', 'spreadsheet', 'LZ_Model_Light_07.csv');
 results = readtable(filePath);
 
-if iscell(results.SSW) || isstring(results.SSW)
-    xData = str2double(results.SSW);
+if iscell(results.GA_days) || isstring(results.GA_days)
+    xData = str2double(results.GA_days);
 else
-    xData = results.SSW;
+    xData = results.GA_days;
 end
 yData = results.LZ;
 % Create the figure

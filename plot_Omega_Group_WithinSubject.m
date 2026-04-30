@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_full_avgtrials.csv');
+results = readtable('spreadsheet/AvgOmega_full.csv');
 groups = {'Control', 'IUGR', 'SGA'};
 
 % Define custom colors (RGB values between 0 and 1)
@@ -64,7 +64,7 @@ for i = 1:3
     % Stats
     [r, pval] = corr(xData, yData, 'Type', 'Spearman', 'Rows', 'complete');
   
-    xlabel('Gestational age (weeks)');
+    xlabel('Gestational age (days)');
     ylabel('O-Information');
     title(groups{i}, 'FontSize', 14);    
     

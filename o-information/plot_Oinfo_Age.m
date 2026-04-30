@@ -1,11 +1,11 @@
 clearvars
 close all
 
-%filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_AUD_DEV_norm_avgtrials.csv');
-%results = readtable(filePath);
+filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_AUD_STD.csv');
+results = readtable(filePath);
 
-%load('AvgOmega_SSW_IUGR_AUD_DEV_norm_avgtrials.mat')
-stimType = 'LIGHT';
+%load('AvgOmega_SSW_IUGR_LIGHT_15.mat')
+stimType = 'AUD-STD';
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
@@ -48,7 +48,7 @@ end
 %yline(0, '--k', 'LineWidth', 1, 'Label', 'Redundancy (+) / Synergy (-)');
 
 % Labeling
-xlabel('Gestational age (weeks)');
+xlabel('Gestational age (days)');
 ylabel('O-information');
 
 % Clean up axes

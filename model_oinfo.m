@@ -1,15 +1,15 @@
 clearvars
 close all
 
-finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_LIGHT_norm.csv'));
-%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_DEV_norm.csv'));
-%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_STD_norm.csv'));
-%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_SPONT_norm.csv'));
+%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_LIGHT.csv'));
+%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_DEV.csv'));
+%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_STD.csv'));
+%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_SPONT.csv'));
 
 finalData.Group = categorical(finalData.Group);
 finalData.Group = reordercats(finalData.Group, {'Control', 'SGA', 'IUGR'});
 
-lme = fitlme(finalData, 'Omega ~ 1 + GA_days*Group + GA_days*Sex + (1|ID)');
+lme = fitlme(finalData, 'Omega ~ 1 + SSW*Group + SSW*Sex + (1|ID)');
 disp(lme);
 
 

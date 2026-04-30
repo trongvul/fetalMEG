@@ -1,7 +1,7 @@
 clearvars
 close all
 
-finalData = readtable('spreadsheet/CTW_Model_AUD_DEV_15.csv');
+finalData = readtable('spreadsheet/CTW_Model_LIGHT_AvgTrials.csv');
 
 finalData.Group = categorical(finalData.Group);
 finalData.Group = reordercats(finalData.Group, {'Control', 'SGA', 'IUGR'});

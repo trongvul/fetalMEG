@@ -3,19 +3,15 @@ clearvars
 close all
 
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat");
-%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_DEV_15.mat");
+load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_DEV_15.mat");
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_STD_15.mat");
-%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials.mat");
+%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
 
-%load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_LIGHT_AvgTrials_15.mat");
+%load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_AUD_DEV.mat");
 
-%load("/home/trongvule/Desktop/fetalMEG/CTW/CTW_SSW_IUGR_AUD_DEV_Moser.mat");
-%load("/home/trongvule/Desktop/fetalMEG/LZ/LZ_SSW_IUGR_LIGHT_Moser.mat")
 
-load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_LIGHT_norm_avgtrials.mat");
+
 %load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
-
-
 
 tempTable = results;
 
@@ -45,9 +41,12 @@ if ~isempty(missingInClinical)
         length(missingInClinical));
 end
 
+filteredDataOnly = spreadsheet(:, {'ID', 'Sex', 'Group'});
+filteredDataOnly = unique(filteredDataOnly, 'rows');
+
 %The Merge (Inner Join)
 %This matches rows where ID exists in BOTH tables
-finalData = innerjoin(tempTable, spreadsheet, 'Keys', 'ID');
+finalData = innerjoin(tempTable, filteredDataOnly, 'Keys', 'ID');
 
 % Set categorical groups for the LME
 finalData.Group = categorical(finalData.Group);
@@ -56,7 +55,7 @@ finalData.Sex = categorical(finalData.Sex);
 % Remove row with NaN
 finalData = rmmissing(finalData);
 
-writetable(finalData, 'spreadsheet/AvgOmega_Model_LIGHT_norm_avgtrials.csv');
+writetable(finalData, 'spreadsheet/AvgOmega_Model_AUD_DEV.csv');
 
 disp('Merge Complete. First 5 rows:');
 disp(head(finalData, 5));
