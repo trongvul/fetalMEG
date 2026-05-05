@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_Model_LIGHT.csv');
+results = readtable('spreadsheet/AvgOmega_PCA_Space_LIGHT.csv');
 stimType = 'SPONT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};

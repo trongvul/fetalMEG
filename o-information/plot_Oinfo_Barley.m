@@ -3,7 +3,7 @@ close all
 
 filePath = fullfile('..', 'spreadsheet', 'AvgOmega_BarleyScore.csv');
 results = readtable(filePath);
-condition = 'Control';
+condition = 'SGA';
 results = rmmissing(results);
 
 %if iscell(results.MDI) || isstring(results.MDI)

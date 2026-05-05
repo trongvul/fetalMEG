@@ -45,10 +45,10 @@ for i = 1:numSubjects
                     % (Channels x Time) -> (Components x Time)
                     segment_pca = (segment_sensor' * coeff)';
                     
-                    % 4. Compute O-info in Component Space
+                    % Compute O-info in Component Space
                     [~, SIGMA] = data2gaussian(segment_pca');
                     [oinfo, sinfo] = soinfo_from_covmat(SIGMA, size(segment_pca, 2));
-                    trialOmegas(t) = oinfo / sinfo;
+                    trialOmegas(t) = oinfo;
                 end
             end
             

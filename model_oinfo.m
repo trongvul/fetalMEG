@@ -1,7 +1,7 @@
 clearvars
 close all
 
-%finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_LIGHT.csv'));
+finalData = readtable(fullfile('spreadsheet','AvgOmega_PCA_Space_LIGHT.csv'));
 %finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_DEV.csv'));
 %finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_AUD_STD.csv'));
 %finalData = readtable(fullfile('spreadsheet','AvgOmega_Model_SPONT.csv'));

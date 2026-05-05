@@ -1,11 +1,11 @@
 clearvars
 close all
 
-filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_AUD_STD.csv');
-results = readtable(filePath);
+%filePath = fullfile('..', 'spreadsheet', 'AvgOmega_PCA_Space_LIGHT.csv');
+%results = readtable(filePath);
 
-%load('AvgOmega_SSW_IUGR_LIGHT_15.mat')
-stimType = 'AUD-STD';
+load('AvgOmega_PCA_Space_LIGHT.mat')
+stimType = 'LIGHT';
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);

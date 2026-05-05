@@ -1,5 +1,5 @@
 results = readtable('spreadsheet/AvgOmega_full.csv');
-groupType = 'IUGR';
+groupType = 'SGA';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
 

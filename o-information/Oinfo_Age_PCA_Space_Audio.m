@@ -35,20 +35,20 @@ for i = 1:numSubjects
             % numComponents = find(cumulativeVar >= 0.95, 1);
             % coeff = coeff(:, 1:numComponents);
 
-            for t = 1:length(l1_samples)
+            for t = 1:length(stimSamples)
                 s_idx = stimSamples(t);
                 if (s_idx + postSamples) <= size(data_filt, 2)
                     % Extract segment in sensor space
                     segment_sensor = data_filt(:, s_idx : s_idx + postSamples);
                     
-                    % 3. Transform segment to PCA space
+                    % Transform segment to PCA space
                     % (Channels x Time) -> (Components x Time)
                     segment_pca = (segment_sensor' * coeff)';
                     
-                    % 4. Compute O-info in Component Space
+                    % Compute O-info in Component Space
                     [~, SIGMA] = data2gaussian(segment_pca');
                     [oinfo, sinfo] = soinfo_from_covmat(SIGMA, size(segment_pca, 2));
-                    trialOmegas(t) = oinfo / sinfo;
+                    trialOmegas(t) = oinfo;
                 end
             end
             
@@ -68,4 +68,4 @@ if ~isempty(compiledData)
     results = rmmissing(results);
 end
 
-save('AvgOmega_PCA_Space_AUD_STD.mat', 'results');
+save('AvgOmega_PCA_Space_AUD_DEV.mat', 'results');
