@@ -1,5 +1,19 @@
+clearvars
+close all
+
+
 filePath = fullfile('..', 'spreadsheet', 'AvgOmega_BarleyScore.csv');
 results = readtable(filePath);
+
+% Filter for the last measurement per subject ---
+% Sort by ID and then by SSW (Gestational Age)
+results = sortrows(results, {'ID', 'SSW'});
+
+% Find the last occurrence of each unique ID
+[~, lastIdx] = unique(results.ID, 'last');
+
+% Create a filtered table containing only the final measurements
+finalResults = results(lastIdx, :);
 
 groups = {'Control', 'IUGR', 'SGA'};
 stimType = 'Pooled';
