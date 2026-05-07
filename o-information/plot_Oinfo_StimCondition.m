@@ -1,8 +1,7 @@
 % Load all data
-spontRes = load('AvgOmega_SSW_IUGR_SPONT.mat');
+spontRes = load('AvgOmega_SSW_IUGR_SPONT_notrials.mat');
 lightRes = load("AvgOmega_SSW_IUGR_LIGHT_15.mat");
 stdRes   = load("AvgOmega_SSW_IUGR_AUD_STD_15.mat");
-%% 
 devRes   = load("AvgOmega_SSW_IUGR_AUD_DEV_15.mat");
 
 % Put tables into a cell array for easy looping

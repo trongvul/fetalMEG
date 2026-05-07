@@ -1,6 +1,14 @@
-results = readtable('spreadsheet/AvgOmega_full.csv');
+results = readtable('spreadsheet/AvgOmega_Model_SPONT.csv');
 groups = {'Control', 'IUGR', 'SGA'};
-stimType = 'Pooled';
+stimType = 'SPONT';
+
+% Colors: Control (Purple), IUGR (Yellow), SGA (Blue)
+plotColors = {
+    [0.4940, 0.1840, 0.5560], % Purple (Control)
+    [0.9290, 0.6940, 0.1250], % Yellow (IUGR)
+    [0.0000, 0.4470, 0.7410]  % Blue   (SGA)
+    };
+
 
 % Conversion of SSW to numeric
 if iscell(results.SSW) || isstring(results.SSW)
@@ -43,8 +51,8 @@ for i = 1:3
     end
    
     % Scatter plot
-    scatter(xData, yData, 40, 'filled', 'MarkerFaceAlpha', 0.6);
-    
+    scatter(xData, yData, 40, 'filled', 'MarkerFaceColor', plotColors{i}, 'MarkerFaceAlpha', 0.5);
+
     % Trend Line
     [p, S] = polyfit(xData, yData, 1);
     x_range = linspace(min(xData), max(xData), 100);
@@ -59,12 +67,12 @@ for i = 1:3
     title(groups{i}, 'FontSize', 14);    
     
     if pval < 0.001
-        subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     else
-        subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     end
     
     set(gca, 'FontSize', 11);
 end
 
-sgtitle(groupType, 'FontWeight', 'bold');
+sgtitle(stimType, 'FontSize', 16, 'FontWeight', 'bold');

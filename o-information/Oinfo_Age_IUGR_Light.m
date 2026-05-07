@@ -27,7 +27,6 @@ for i = 1:numSubjects
             load(fullfile(baseDir, subjName, '0_info', 'alltriggers.mat')); 
             load(fullfile(baseDir, subjName, '0_info', 'ssw.mat')); 
 
-            
             isL1 = strcmp({alltriggers.type}, 'L1');
             l1_samples = [alltriggers(isL1).sample];
            
@@ -48,7 +47,7 @@ for i = 1:numSubjects
             end
             
             avgOmega = mean(trialOmegas, 'omitnan');
-
+           
              % Store in cell array: {SubjectName, SSW, Omega}
             compiledData{end+1, 1} = subjName; %#ok<AGROW>
             compiledData{end, 2} = ssw;

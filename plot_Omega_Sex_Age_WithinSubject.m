@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_PCA_Space_LIGHT.csv');
+results = readtable('spreadsheet/AvgOmega_Model_SPONT.csv');
 stimType = 'SPONT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
@@ -71,9 +71,9 @@ for i = 1:2
     title(sexNames{i}, 'FontSize', 14);    
     
     if pval < 0.001
-        subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     else
-        subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     end
     
     set(gca, 'FontSize', 11);

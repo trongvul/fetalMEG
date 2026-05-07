@@ -4,7 +4,7 @@ close all
 %filePath = fullfile('..', 'spreadsheet', 'AvgOmega_PCA_Space_LIGHT.csv');
 %results = readtable(filePath);
 
-load('AvgOmega_SSW_IUGR_SPONT_notrials.mat')
+load('AvgOmega_SSW_IUGR_AUD_STD_15.mat')
 stimType = 'AUD-DEV';
 
 if iscell(results.SSW) || isstring(results.SSW)
@@ -18,7 +18,7 @@ figure('Color', 'w', 'Position', [100, 100, 800, 600]);
 hold on;
 
 % Scatter plot of the data
-s = scatter(xData, yData);
+s = scatter(xData, yData, 'filled', 'MarkerFaceAlpha', 0.5);
 
 % Add a Trend Line (Linear Fit)
 if height(results) > 1
@@ -33,7 +33,7 @@ if height(results) > 1
     [r, pval] = corr(xData, yData, 'Type', 'Spearman');
 
     if pval < 0.001
-        subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     else
         subtitle(sprintf('rho = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     end

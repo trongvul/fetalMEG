@@ -3,13 +3,7 @@ clearvars
 close all
 
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat");
-%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_PCA_Space_AUD_DEV.mat");
-%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_AUD_STD_15.mat");
-%load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials_norm.mat");
-
 %load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_AUD_DEV.mat");
-
-
 
 load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_PCA_Space_LIGHT.mat");
 

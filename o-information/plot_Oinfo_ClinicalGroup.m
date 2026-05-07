@@ -1,5 +1,6 @@
 % Load all data
-filePath = fullfile('..', 'spreadsheet', 'AvgOmega_full.csv');
+filePath = fullfile('..', 'spreadsheet', 'AvgOmega_Model_LIGHT.csv');
+stimType = 'LIGHT';
 results = readtable(filePath);
 
 % Define the group order
@@ -29,11 +30,8 @@ s = swarmchart(results.Group, results.Omega, 40, results.Group, 'filled', 'Marke
 colororder(plotColors);
 
 % Formatting the plot
-title('O-Information comparison by linical Group', 'FontSize', 14);
-ylabel('Omega Value');
-xlabel('Clinical Group');
-grid on;
-
+title(stimType, 'FontSize', 14);
+ylabel('O-information');
 % Set axes properties for clean look
 set(gca, 'FontSize', 11, 'TickLabelInterpreter', 'none');
 
