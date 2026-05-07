@@ -4,8 +4,8 @@ close all
 %filePath = fullfile('..', 'spreadsheet', 'AvgOmega_PCA_Space_LIGHT.csv');
 %results = readtable(filePath);
 
-load('AvgOmega_PCA_Space_LIGHT.mat')
-stimType = 'LIGHT';
+load('AvgOmega_SSW_IUGR_SPONT_notrials.mat')
+stimType = 'AUD-DEV';
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);
@@ -28,19 +28,14 @@ if height(results) > 1
     [y_fit, delta] = polyval(p, x_range, S);
     
     plot(x_range, y_fit, 'r-');
-    
-    % Add a shaded 95% Confidence Interval
-    %fill([x_range, fliplr(x_range)], [y_fit+2*delta, fliplr(y_fit-2*delta)], ...
-    %    'r', 'FaceAlpha', 0.1, 'EdgeColor', 'none', 'HandleVisibility', 'off');
-    
+   
     % Calculate Correlation for the title
-    [r, pval] = corr(xData, yData);
-    %title_str = sprintf('Development of fetal brain information dynamics\n(r = %.2f, p = %.3f)', r, pval);
+    [r, pval] = corr(xData, yData, 'Type', 'Spearman');
 
     if pval < 0.001
         subtitle(sprintf('r = %.2f, p < 0.001', r), 'FontAngle', 'italic');
     else
-        subtitle(sprintf('r = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
+        subtitle(sprintf('rho = %.2f, p = %.3f', r, pval), 'FontAngle', 'italic');
     end
 end
 

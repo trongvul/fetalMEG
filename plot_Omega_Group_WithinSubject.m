@@ -1,11 +1,8 @@
 results = readtable('spreadsheet/AvgOmega_full.csv');
 groups = {'Control', 'IUGR', 'SGA'};
+stimType = 'Pooled';
 
-% Define custom colors (RGB values between 0 and 1)
-%colorMale = [0.2, 0.4, 0.8];  
-%colorFemale = [0.9, 0.3, 0.5]; 
-
-% Master conversion of SSW to numeric
+% Conversion of SSW to numeric
 if iscell(results.SSW) || isstring(results.SSW)
     allX = str2double(results.SSW);
 else
@@ -27,13 +24,6 @@ for i = 1:3
     idData = allIDs(isData);
     
     if isempty(xData) || all(isnan(xData)), continue; end
-
-    % Select the color based on the loop index
-    % if i == 1
-    %     currentCol = colorMale;
-    % else
-    %     currentCol = colorFemale;
-    % end
     
     % Plot Within-Subject Lines
     uniqueIDs = unique(idData);
@@ -52,9 +42,9 @@ for i = 1:3
         end
     end
    
-    % Scatter plot (Overlayed on top of lines)
-    %scatter(xData, yData, 40, 'filled', 'MarkerFaceColor', currentCol, 'MarkerFaceAlpha', 0.6);
+    % Scatter plot
     scatter(xData, yData, 40, 'filled', 'MarkerFaceAlpha', 0.6);
+    
     % Trend Line
     [p, S] = polyfit(xData, yData, 1);
     x_range = linspace(min(xData), max(xData), 100);
@@ -76,3 +66,5 @@ for i = 1:3
     
     set(gca, 'FontSize', 11);
 end
+
+sgtitle(groupType, 'FontWeight', 'bold');

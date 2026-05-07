@@ -11,7 +11,7 @@ results = rmmissing(results);
 %else
 %    xData = results.MDI;
 %end
-xData = results.MDI;
+xData = results.PDI;
 yData = results.Omega;
 
 isData = strcmp(results.Group, condition); %& results.Sex == 1;
@@ -50,7 +50,7 @@ ylabel('O-information');
 
 % Clean up axes
 set(gca, 'FontSize', 12, 'TickDir', 'out');
-%title(stimType, 'FontWeight', 'bold');
+title(condition, 'FontWeight', 'bold');
 
 
 %results.Group = categorical(results.Group);
