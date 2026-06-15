@@ -4,12 +4,12 @@ close all
 %if isempty(gcp('nocreate')), parpool; end % Open parallel pool if not already open
 
 % Analysis of spontaneous (resting state) complexity (average of trial entropies)
-%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
 baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
 allSubjectsDir = dir(baseDir);
 numSubjects = length(allSubjectsDir);
 fs = 610.3516;
+numChansToPick = 10;
 
 [b, a] = butter(4, [1 15] / (fs/2), 'bandpass');
 
@@ -26,9 +26,12 @@ for i = 1:numSubjects
             
             dsPath = fullfile(baseDir, subjName, '3_fMEG', 'fMEG_data.ds');
             hdr = ft_read_header(dsPath);
+            randIdx = randperm(hdr.nChans, numChansToPick);
 
             cfg = [];
             cfg.dataset = dsPath;
+            cfg.channel = hdr.label(randIdx);
+            cfg.feedback = 'no';
             dataStruct = ft_preprocessing(cfg);
 
              % Filtering

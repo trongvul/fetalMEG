@@ -67,41 +67,41 @@ for i = 1:numSubjects
         %   spread across the helmet rather than a genuine foetal source).
 
         % Retrieve 3-D positions for all channels [3 × nChannels]
-        chanPos = hdr.chanpos;   % FieldTrip convention: rows = channels, cols = [x y z]
+        chanPos = hdr.grad.chanpos;   % FieldTrip convention: rows = channels, cols = [x y z]
 
         % Positions of the selected N_TOP channels [N_TOP × 3]
         selPos = chanPos(topIdx, :);
 
         % Pairwise Euclidean distances between selected channels
-        D = pdist2(selPos, selPos);   % [N_TOP × N_TOP]
+        %D = pdist2(selPos, selPos);   % [N_TOP × N_TOP]
 
-        % Adjacency matrix: 1 if within distThresh (exclude self-loops)
-        A = (D < distThresh) & ~eye(N_TOP);
-
-        % Connected-components via BFS/DFS using a simple label-spreading loop
-        labels    = zeros(N_TOP, 1);
-        currentLbl = 0;
-        for k = 1:N_TOP
-            if labels(k) == 0
-                currentLbl    = currentLbl + 1;
-                queue         = k;
-                labels(k)     = currentLbl;
-                while ~isempty(queue)
-                    node  = queue(1);
-                    queue = queue(2:end);
-                    nbrs  = find(A(node, :) & labels' == 0);
-                    labels(nbrs) = currentLbl;
-                    queue = [queue, nbrs]; %#ok<AGROW>
-                end
-            end
-        end
-        nComponents = max(labels);
-
-        if nComponents > 1
-            fprintf('Skipped %s: top-%d channels span %d disconnected clusters (distThresh=%.3f m).\n', ...
-                subjName, N_TOP, nComponents, distThresh);
-            continue
-        end
+        % % Adjacency matrix: 1 if within distThresh (exclude self-loops)
+        % A = (D < distThresh) & ~eye(N_TOP);
+        % 
+        % % Connected-components via BFS/DFS using a simple label-spreading loop
+        % labels    = zeros(N_TOP, 1);
+        % currentLbl = 0;
+        % for k = 1:N_TOP
+        %     if labels(k) == 0
+        %         currentLbl    = currentLbl + 1;
+        %         queue         = k;
+        %         labels(k)     = currentLbl;
+        %         while ~isempty(queue)
+        %             node  = queue(1);
+        %             queue = queue(2:end);
+        %             nbrs  = find(A(node, :) & labels' == 0);
+        %             labels(nbrs) = currentLbl;
+        %             queue = [queue, nbrs]; %#ok<AGROW>
+        %         end
+        %     end
+        % end
+        % nComponents = max(labels);
+        % 
+        % if nComponents > 1
+        %     fprintf('Skipped %s: top-%d channels span %d disconnected clusters (distThresh=%.3f m).\n', ...
+        %         subjName, N_TOP, nComponents, distThresh);
+        %     continue
+        % end
 
         % ---- 5.  Compute O-information on the 10 selected channels -------
         data_sel = data_filt(topIdx, :);   % [N_TOP × nSamples]

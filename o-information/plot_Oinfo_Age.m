@@ -4,8 +4,8 @@ close all
 %filePath = fullfile('..', 'spreadsheet', 'AvgOmega_PCA_Space_LIGHT.csv');
 %results = readtable(filePath);
 
-load('AvgOmega_SSW_IUGR_AUD_STD_15.mat')
-stimType = 'AUD-DEV';
+load('AvgOmega_SSW_IUGR_SPONT_top10cluster.mat')
+stimType = 'SPONT';
 
 if iscell(results.SSW) || isstring(results.SSW)
     xData = str2double(results.SSW);

@@ -2,7 +2,9 @@
 clearvars; close all;
 rng(329014901); 
 
-baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\SAMPLE_DATA_24_ICA";
+%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\SAMPLE_DATA_24_ICA";
+
+
 subjectFolders = dir(fullfile(baseDir, '*_FAIRY'));
 
 numSubjects = length(subjectFolders);
