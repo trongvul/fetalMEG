@@ -62,7 +62,7 @@ finalData.Group = categorical(finalData.Group);
 finalData.Sex = categorical(finalData.Sex);
 
 % Clean and Save
-finalData = rmmissing(finalData);
+%finalData = rmmissing(finalData);
 writetable(finalData, 'spreadsheet/AvgOmega_full_norm.csv');
 
 disp('Merge Complete. Combined data contains:');

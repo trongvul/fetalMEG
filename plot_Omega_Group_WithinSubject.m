@@ -1,6 +1,6 @@
-results = readtable('spreadsheet/AvgOmega_Model_SPONT.csv');
+results = readtable('spreadsheet/AvgOmega_Model_AUD_STD_full.csv');
 groups = {'Control', 'IUGR', 'SGA'};
-stimType = 'SPONT';
+stimType = 'AUD-STD';
 
 % Colors: Control (Purple), IUGR (Yellow), SGA (Blue)
 plotColors = {
