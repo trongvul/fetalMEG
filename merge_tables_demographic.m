@@ -2,11 +2,11 @@
 clearvars
 close all
 
-load("C:\Users\idm\OneDrive\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials.mat")
+%load("C:\Users\idm\OneDrive\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_SPONT_notrials.mat")
 
 %load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_AUD_DEV.mat");
 
-%load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_PCA_Space_LIGHT.mat");
+load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_AUD_STD_top10cluster.mat");
 
 tempTable = results;
 
@@ -50,7 +50,7 @@ finalData.Sex = categorical(finalData.Sex);
 % Remove row with NaN
 %finalData = rmmissing(finalData);
 
-writetable(finalData, 'spreadsheet/AvgOmega_Model_SPONT_full.csv');
+writetable(finalData, 'spreadsheet/AvgOmega_Model_AUD_STD_top10cluster_full.csv');
 
 disp('Merge Complete. First 5 rows:');
 disp(head(finalData, 5));

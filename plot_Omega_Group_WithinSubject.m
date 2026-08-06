@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_Model_AUD_STD_full.csv');
+results = readtable('spreadsheet/AvgOmega_Model_LIGHT_top10cluster_full.csv');
 groups = {'Control', 'IUGR', 'SGA'};
 stimType = 'AUD-STD';
 

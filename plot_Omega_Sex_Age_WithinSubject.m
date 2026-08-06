@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_Model_LIGHT_full.csv');
+results = readtable('spreadsheet/AvgOmega_Model_SPONT_top10cluster_full.csv');
 stimType = 'SPONT';
 sex = {1, 2};
 sexNames = {'Male', 'Female'};
