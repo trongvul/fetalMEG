@@ -1,6 +1,6 @@
-results = readtable('spreadsheet/AvgOmega_Model_LIGHT_top10cluster_full.csv');
+results = readtable('spreadsheet/AvgOmega_Model_SPONT_newChannels.csv');
 groups = {'Control', 'IUGR', 'SGA'};
-stimType = 'AUD-STD';
+stimType = 'SPONT';
 
 % Colors: Control (Purple), IUGR (Yellow), SGA (Blue)
 plotColors = {

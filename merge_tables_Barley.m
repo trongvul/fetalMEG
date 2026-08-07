@@ -5,8 +5,8 @@ close all
 %load("C:\Users\idm\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat");
 %load("C:\Users\idm\Desktop\fetalMEG\CTW\CTW_SSW_IUGR_AUD_DEV.mat");
 
-%load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_SPONT_notrials.mat");
-load("C:\Users\idm\OneDrive\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_15.mat")
+%load("C:\Users\idm\OneDrive\Desktop\fetalMEG\o-information\AvgOmega_SSW_IUGR_LIGHT_new.mat")
+load("/home/trongvule/Desktop/fetalMEG/o-information/AvgOmega_SSW_IUGR_AUD_STD_new.mat");
 
 
 tempTable = results;
@@ -33,7 +33,7 @@ finalData.Group = categorical(finalData.Group);
 % Remove row with NaN
 %finalData = rmmissing(finalData);
 
-writetable(finalData, 'spreadsheet/AvgOmega_Barley_LIGHT_full.csv');
+writetable(finalData, 'spreadsheet/AvgOmega_Barley_AUD_STD_newChannels.csv');
 
 disp('Merge Complete. First 5 rows:');
 disp(head(finalData, 5));

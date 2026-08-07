@@ -20,7 +20,7 @@ fs = 610.3516;
 
 N_TOP       = 10;          % number of channels to keep
 
-i = 1024;
+i = 245;
 subjName = allSubjectsDir(i).name;
 if allSubjectsDir(i).isdir && contains(subjName, "SSW",   'IgnoreCase', true)
     %if ~contains(subjName, "SPONT", 'IgnoreCase', true), continue; end

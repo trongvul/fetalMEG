@@ -1,4 +1,4 @@
-results = readtable('spreadsheet/AvgOmega_Model_AUD_DEV_norm.csv');
+results = readtable('spreadsheet/AvgOmega_Model_AUD_DEV_newChannels.csv');
 sex = {1, 2};
 
 % Master conversion of SSW to numeric 

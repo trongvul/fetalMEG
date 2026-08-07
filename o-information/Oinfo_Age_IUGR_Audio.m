@@ -2,7 +2,6 @@ clearvars
 close all
 
 % Analysis of o-information of auditory stimulus response 
-%baseDir = "\\10.174.1.22\data\FETAL_USER\FAIRY_THEM_ALL_2024_withICA\IUGR_24_ICA";
 baseDir = "/server/fo2-22/data/FETAL_USER/FAIRY_THEM_ALL_2024_withICA/IUGR_24_ICA";
 
 allSubjectsDir = dir(baseDir);
